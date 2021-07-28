@@ -1,0 +1,31 @@
+server:
+  port: 7000
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: hotel-server
+        uri: lb://booking-hotel-service
+        predicates:
+          - Path=/shotels/**
+        filters:
+          - RewritePath=/shotels/*, /
+
+      - id: user-server
+        uri: lb://booking-user-service
+        predicates:
+          - Path=/susers/**
+        filters:
+          - RewritePath=/susers/*, /
+
+      - id: reservation-server
+        uri: lb://booking-reservation-service
+        predicates:
+          - Path=/sreservations/**
+        filters:
+          - RewritePath=/sreservations/*, /
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
